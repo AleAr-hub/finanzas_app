@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex flex-row-reverse">
+    <a href="/logout">
+        <button class="btn btn-outline-danger" type="button">Logout</button>
+    </a>
+
+    <a href="editar-perfil">
+        <button class="btn btn-outline-warning" type="button">Perfil</button>
+    </a>
+
+    <a href="/">
+        <button class="btn btn-outline-primary" type="button">Inicio</button>
+    </a>
+</div>
+<h1 class="text-center titulo">APP FINANZAS</h1>
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Editar categorías -->
+        <div class="col-sm-3, col-md-6, col-lg-3">
+            <div class="card mt-4">
+                <div class="card-header">
+                    <form action="{{ url_for('editar_categoria') }}" method="POST">
+                        <div class="form-group">
+                            <input class="form-control" maxlength="15" name="nuevo_nombre"
+                                   placeholder="Nuevo nombre de la categoria" required type="text">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-select form-select-lg mb-6 bg-info container-fluid" name="categoria_id"
+                                    required>
+                                <option disabled selected value="">Seleccione Categoria</option>
+                                {% for categoria in lista_de_categorias %}
+                                <option value="{{ categoria.id }}">{{ categoria.nombre_categoria }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <button class="btn btn-success btn-block" type="submit">Editar Categoría</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Editar email de usuario -->
+        <div class="col-sm-3, col-md-6, col-lg-3">
+            <div class="card mt-4">
+                <div class="card-header">
+                    <form action="{{ url_for('editar_perfil') }}" method="POST">
+                        {{ form_email.hidden_tag() }}
+                        <div class="form-group">
+                            {% if form_email.email_usuario.errors %}
+                            {{ form_email.email_usuario(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form_email.email_usuario.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form_email.email_usuario(class="form-control") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form_email.submit_email(class="btn btn-info btn-block") }}
+                        </div>
+                        <div class="form-group card-body">
+                            <h4>
+                                {{ email_usuario }}
+                            </h4>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Editar nombre de usuario -->
+        <div class="col-sm-3, col-md-6, col-lg-3">
+            <div class="card mt-4">
+                <div class="card-header">
+                    <form action="{{ url_for('editar_perfil') }}" method="POST">
+                        {{ form_nombre.hidden_tag() }}
+                        <div class="form-group">
+                            {% if form_nombre.nombre_usuario.errors %}
+                            {{ form_nombre.nombre_usuario(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.nombre_usuario.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form_nombre.nombre_usuario(class="form-control") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form_nombre.submit_nombre(class="btn btn-info btn-block") }}
+                        </div>
+                        <div class="form-group card-body">
+                            <h4>
+                                {{ nombre_usuario }}
+                            </h4>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Imagen de usuario -->
+        <div class="col-sm-3, col-md-6, col-lg-3">
+            <div class="card mt-4">
+                <div class="card-header text-center">
+                    <img alt="Imagen de usuario" class="img-fluid" src="{{ imagen }}" style="max-width: 80%;">
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('editar_perfil') }}" enctype="multipart/form-data" method="POST">
+                        {{ form_imagen.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form_imagen.imagen_usuario(class="form-control") }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_imagen.submit_imagen(class="btn btn-info btn-block") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

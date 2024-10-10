@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-center align-items-center vh-100">
+
+    <div class="card badge bg-success shadow-lg" style="width: 28rem;">
+        <div class="card-body">
+            <h1 class="text-center titulo">APP FINANZAS</h1>
+            <form action="" method="POST">
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4 registro">Iniciar sesion</legend>
+                    <div class="form-group">
+                        {{ form.email_inicio.label(class="form-label registro") }}
+                        {% if form.email_inicio.errors %}
+                        {{ form.email_inicio(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email_inicio.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ form.email_inicio(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.password_inicio.label(class="form-label registro") }}
+                        {% if form.password_inicio.errors %}
+                        {{ form.password_inicio(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.password_inicio.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ form.password_inicio(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-check">
+                        {{ form.recordar(class="for-check-input") }}
+                        {{ form.recordar.label(class="for-check-label") }}
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    {{ form.submit_inicio(class="btn btn-info btn-lg btn-block registro") }}
+                </div>
+                <small class="text-muted">
+                    <a href="{{ url_for('solicitar_reset_password') }}">Olvide contraseña</a>
+                </small>
+            </form>
+            <div class="border-top pt-3">
+                <small class="muted">
+                    ¿No tienes cuenta? <a class="ml-8" href="{{ url_for('registro') }}">Registrate</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% if title %}
+    <title>Finanzas - {{ title }}</title>
+    {% else %}
+    <title>Finanzas App</title>
+    {% endif %}
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Inicio - APP </title>
+
+    <!-- Hoja de estilo propia -->
+    <link href="{{url_for('static', filename='styles.css')}}" rel="stylesheet">
+
+    <!-- Tema de Bootstrap -->
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css"
+          integrity="sha384-9+PGKSqjRdkeAU7Eu4nkJU8RFaH8ace8HGXnkiKMP9I9Te0GJ4/km3L1Z8tXigpG" rel="stylesheet">
+
+    <!-- Fuente Google -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=New+Amsterdam&family=Orbitron:wght@400..900&family=Poetsen+One&display=swap"
+          rel="stylesheet">
+</head>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="text-center alert alert-{{ category }}">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<body>
+{% block content %}
+{% endblock %}
+</body>
+</html>

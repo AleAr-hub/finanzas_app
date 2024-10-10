@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Botones de accion -->
+<div class="d-flex flex-row-reverse">
+    <a href="/logout">
+        <button class="btn btn-outline-danger" type="button">Logout</button>
+    </a>
+
+    <a href="editar-perfil">
+        <button class="btn btn-outline-warning" type="button">Perfil</button>
+    </a>
+
+    <a href="/">
+        <button class="btn btn-outline-primary" type="button">Inicio</button>
+    </a>
+
+</div>
+<h1 class="text-center titulo">APP FINANZAS</h1>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Seccion de ingresos/gastos y categorias -->
+        <div class="col-sm-3, col-md-6, col-lg-3">
+            <!-- Formulario de ingreso y gasto -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <form action="/crear-transaccion" method="post">
+                        <div class="form-group">
+                            <input class="form-control" name="ingreso" placeholder="Ingreso" step="0.01"
+                                   type="number">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" name="gasto" placeholder="Gasto" step="0.01" type="number">
+                        </div>
+                        <!-- Formulario de categorias -->
+                        <div class="form-group">
+                            <select class="form-select form-select-lg mb-6 bg-info container-fluid"
+                                    name="categoria_id"
+                                    required>
+                                <option disabled selected value="">Seleccione Categoria</option>
+                                {% for categoria in lista_de_categorias %}
+                                <option value="{{ categoria.id }}">{{ categoria.nombre_categoria }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button class="btn btn-success btn-block" type="submit">Guardar</button>
+                    </form>
+                </div>
+            </div>
+            <!-- Creacion y lista de categorias -->
+            <div class="card">
+                <div class="card-header">
+                    <form action="/crear-categoria" method="post">
+                        <div class="form-group">
+                            <input autofocus class="form-control" maxlength="15" name="categoria"
+                                   placeholder="Crea tus categorias" required type="text">
+                        </div>
+                        <button class="btn btn-info btn-block" type="submit">Guardar</button>
+                        <div class="form-group">
+                            <ul class="list-group list-group-flush">
+                                {% for categoria in lista_de_categorias %}
+                                <li class="list-group-item">
+                                    {{ categoria.nombre_categoria }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Tabla dinamica de ingresos/gastos -->
+        <div class="col-sm-3, col-md-6, col-lg-6">
+            <table class="display" id="mytable">
+                <thead>
+                <tr class="table-primary text-center">
+                    <th scope="col">Categoría</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for transaccion in lista_de_transacciones %}
+                <tr>
+                    <td class="table-info align-middle">{{ transaccion.categoria.nombre_categoria }}</td>
+                    <td class="table-success align-middle">{{ transaccion.fecha_transaccion.strftime('%d-%m-%Y') }}</td>
+                    <td class="table-warning align-middle">{{ transaccion.ingreso - transaccion.gasto }}</td>
+                    <td class="text-center align-middle">
+                        <a href="/eliminar-transaccion/{{ transaccion.id }}" style="'text-decoration:none">
+                            <button class="btn btn-danger btn-block btn-sm" type="button">Eliminar</button>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Resumen total y usuario con su imagen -->
+        <div class="col-sm-3, col-md-6, col-lg-3">
+            <div class="card mb-3">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ nombre_usuario }}</h5>
+                    <!-- Mostrar imagen de usuario -->
+                    <img alt="Imagen de usuario" class="img-fluid" src='{{ imagen_usuario }}'
+                         style="max-width: 80%;">
+                </div>
+                <div class="card-body">
+                    <h1 class="numero"> Total </h1>
+                    <h2 class="numero">{{ total }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Script de JS para tener una tabla dinamica -->
+<script defer src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script defer src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
+<script defer src="https://cdn.datatables.net/2.1.3/js/dataTables.bootstrap5.js"></script>
+<script defer src="{{url_for('static', filename='script.js')}}"></script>
+{% endblock content %}

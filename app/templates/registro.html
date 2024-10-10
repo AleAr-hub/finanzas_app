@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-center align-items-center vh-100">
+
+    <div class="card badge bg-success shadow-lg" style="width: 28rem;">
+        <div class="card-body">
+            <h1 class="text-center titulo">APP FINANZAS</h1>
+            <form action="" method="POST">
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4 registro">Resgistrate</legend>
+                    <div class="form-group">
+                        {{ form.nombre_registro.label(class="form-label registro") }}
+                        {% if form.nombre_registro.errors %}
+                        {{ form.nombre_registro(class="form-control-label is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.nombre_registro.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ form.nombre_registro(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.email_registro.label(class="form-label registro") }}
+                        {% if form.email_registro.errors %}
+                        {{ form.email_registro(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email_registro.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ form.email_registro(class="form-control form-control") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.password_registro.label(class="form-label registro") }}
+                        {% if form.password_registro.errors %}
+                        {{ form.password_registro(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.password_registro.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ form.password_registro(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.confirmar_password.label(class="form-label registro") }}
+                        {% if form.confirmar_password.errors %}
+                        {{ form.confirmar_password(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.confirmar_password.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ form.confirmar_password(class="form-control") }}
+                        {% endif %}
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    {{ form.submit_registro(class="btn btn-info btn-lg btn-block registro") }}
+                </div>
+            </form>
+            <div class="border-top pt-3">
+                <small class="muted">
+                    ¿Ya tienes una cuenta? <a class="ml-8" href="{{ url_for('inicio') }}">Inicia sesión</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
